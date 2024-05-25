@@ -80,9 +80,72 @@ CMD ["npm","run","dev-wds"]
 # ~~ Docker Practical Course in Arabic | #09 - Docker Compose ~~ #
 
 # ~~ Docker Practical Course in Arabic | #10 - Environment Variables ~~ #
-# Use environment variables to pass configuration information to containers at runtime.
-# Environment variables are key-value pairs that contain data that can be used by processes running inside a Docker container.
-# They are often used to configure application settings and other parameters that may vary between different environments, such as development, testing, and production.
-# how to pass env. var. to my container ?
-# const PORT = process.env.PORT || 4000;
+# Environment Variables in Docker
+# Purpose: Pass configuration data to containers at runtime to make applications more flexible and dynamic.
+
+# Methods to Set Environment Variables
+
+# 1.Dockerfile:
+
+#   1.Use ENV instruction
+# FROM alpine:latest
+# ENV MY_VAR=my_value
+# CMD ["sh", "-c", "echo $MY_VAR"]
+
+# 2.docker run:
+
+#   1. Use -e flag.
+# docker run --rm -e MY_VAR=my_value alpine:latest sh -c 'echo $MY_VAR'
+# 
+#   2.Use --env-file to specify a file.
+# docker run --rm --env-file .env alpine:latest sh -c 'echo $MY_VAR $ANOTHER_VAR'
+# 
+
+# 3.Docker Compose:
+
+#   Define in docker-compose.yml using environment key.
+# version: '3.8'
+# services:
+#   app:
+#     image: alpine:latest
+#     environment:
+#       - MY_VAR=my_value
+#     command: sh -c 'echo $MY_VAR'
+#
+#   OR
+# version: '3.8'
+# services:
+#     app:
+#       image: alpine:latest
+#       env_file:
+#         - .env
+#       command: sh -c 'echo $MY_VAR $ANOTHER_VAR'
+#   Reference local environment variables.
+# version: '3.8'
+# services:
+#   app:
+#     image: alpine:latest
+#     environment:
+#       - MY_VAR
+#     command: sh -c 'echo $MY_VAR'
+# 
+# Accessing Environment Variables Inside Containers
+#
+# VS Terminal: printenv
+#
+# * Python:
+
+# import os
+# my_var = os.getenv('MY_VAR')
+# print(f'MY_VAR is {my_var}')
+# 
+# *Node.js:
+
+# console.log(`MY_VAR is ${process.env.MY_VAR}`);
+# 
+# Best Practices
+# Security: Avoid exposing sensitive information directly in Dockerfiles or Compose files. Use environment files or Docker secrets.
+# Portability: Use environment variables for different environments (development, testing, production).
+# Consistency: Maintain a consistent naming convention for environment variables.
+# This summary captures the key points on how to set and use environment variables in Docker.
 
