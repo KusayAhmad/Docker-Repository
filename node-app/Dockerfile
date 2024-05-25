@@ -149,3 +149,12 @@ CMD ["npm","run","dev-wds"]
 # Consistency: Maintain a consistent naming convention for environment variables.
 # This summary captures the key points on how to set and use environment variables in Docker.
 
+
+# ~~ Docker Practical Course in Arabic | #11 - Docker Environments (Dev, Prod, ...) ~~ #
+
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+# To rebuild the image and run the container
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+

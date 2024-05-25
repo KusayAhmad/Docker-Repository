@@ -1,3 +1,5 @@
 /node_modules
 Dockerfile
 .env
+docker-compose* 
+# Ignore all files and directories that start with "docker-compose"
