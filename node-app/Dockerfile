@@ -8,9 +8,16 @@ WORKDIR /app
 # "." means copy it in the source conainer
 COPY package.json .
 
-# Install dependencies based on the package.json file
-RUN npm install
+# Define the NODE_ENV build argument, which specifies the environment (e.g., development or production).
+ARG NODE_ENV 
 
+# Conditionally install npm dependencies based on the NODE_ENV value.
+# If NODE_ENV is set to "production", install only the production dependencies.
+RUN if ["$NODE_ENV" = "production" ]; \
+    then npm install --only=production; \
+# Otherwise, install all dependencies (both production and development).
+    else npm install; \
+    fi
 # Copy all files from the host machine to the /app directory in the container
 COPY . .
 
@@ -18,6 +25,7 @@ COPY . .
 EXPOSE 4000
 
 # Specify the default command to run when the container starts (npm run start-dev)
+# because of the IF condation in line 16 to 20 , this command will overwrite!
 CMD ["npm","run","dev-wds"]
 
 # Commands needed #
