@@ -1,27 +1,17 @@
 # Use the official Node.js version 16 image as the base for the container
-FROM node:16 as development
+FROM node:16 as base
 
-# Set the working directory inside the container to /app
+FROM base as development
+
 WORKDIR /app 
-
-# Copy only the package.json file from the host machine to the /app directory in the container
-# "." means copy it in the source conainer
 COPY package.json .
-
-# Install dependencies based on the package.json file
 RUN npm install
-
-# Copy all files from the host machine to the /app directory in the container
 COPY . .
-
-# Expose port 4000 to document that the application inside the container will use this port
 EXPOSE 4000
-
-# Specify the default command to run when the container starts (npm run start-dev)
-# because of the IF condation in line 16 to 20 , this command will overwrite!
 CMD ["npm","run","dev-wds"]
 
-FROM node:16 as production
+FROM base as  production
+
 WORKDIR /app 
 COPY package.json .
 #--only=productionCopy: This flag tells npm to install only the production dependencies, i.e.,
