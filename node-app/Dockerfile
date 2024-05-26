@@ -1,5 +1,5 @@
-# Use the official Node.js version 14 image as the base for the container
-FROM node:16
+# Use the official Node.js version 16 image as the base for the container
+FROM node:16 as development
 
 # Set the working directory inside the container to /app
 WORKDIR /app 
@@ -8,16 +8,9 @@ WORKDIR /app
 # "." means copy it in the source conainer
 COPY package.json .
 
-# Define the NODE_ENV build argument, which specifies the environment (e.g., development or production).
-ARG NODE_ENV 
+# Install dependencies based on the package.json file
+RUN npm install
 
-# Conditionally install npm dependencies based on the NODE_ENV value.
-# If NODE_ENV is set to "production", install only the production dependencies.
-RUN if ["$NODE_ENV" = "production" ]; \
-    then npm install --only=production; \
-# Otherwise, install all dependencies (both production and development).
-    else npm install; \
-    fi
 # Copy all files from the host machine to the /app directory in the container
 COPY . .
 
@@ -27,6 +20,18 @@ EXPOSE 4000
 # Specify the default command to run when the container starts (npm run start-dev)
 # because of the IF condation in line 16 to 20 , this command will overwrite!
 CMD ["npm","run","dev-wds"]
+
+FROM node:16 as production
+WORKDIR /app 
+COPY package.json .
+#--only=productionCopy: This flag tells npm to install only the production dependencies, i.e.,
+#the packages listed under the dependencies section of package.json.
+#It excludes the packages listed under devDependencies.
+RUN npm install --only=production
+COPY . .
+EXPOSE 4000
+CMD ["npm","start"]
+
 
 # Commands needed #
 # docker build -t express-node-app .
