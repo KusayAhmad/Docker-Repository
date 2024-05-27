@@ -9,8 +9,10 @@ const app = express(); // It initializes an instance of the Express application.
 const DB_USER = 'root';
 const DB_PASSWORD = 'root';
 const DB_PORT = 27017;
-const DB_HOST = '172.27.0.2'; // got it from docker inspect node-app-mongo-1
+const DB_HOST = 'mongo'; // get the ip deirect from mongo service not manually 
 const URI = `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}`;
+// To login docker exec [container name] mongosh -u root -p root
+
 mongoose
 .connect(URI)
 .then (() => console.log('!!! Connected to DB !!!'))
