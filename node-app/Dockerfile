@@ -160,4 +160,12 @@ CMD ["npm","start"]
 # To rebuild the image and run the container
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
+# ~~ Docker Practical Course in Arabic | #13 - Docker with MongoDB & NodeJS ~~ #
+# docker exec -it node-app-mongo-1 mongosh -u root -p root (auto login to DB)
+
+
+# ~~ Docker Practical Course in Arabic | #14 - Docker with Mongo-Express ~~ #
+# docker volume ls
+# docker volume prune ( to remove unused volumes )
+
 
