@@ -1,11 +1,13 @@
 version: "3"
 services:
-  node-app: #Image name = Foldername-node-app
+  node-app: # Image name = Foldername-node-app
     container_name: express-node-app-container
     ports:
       - "4000:4000"
     env_file:
       - ./.env
+    depends_on:
+      - mongo
   mongo:
     image: mongo
     restart: always
@@ -23,7 +25,10 @@ services:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: root
       ME_CONFIG_MONGODB_URL: mongodb://root:root@mongo:27017/
-      ME_CONFIG_BASICAUTH: false    
-
+      ME_CONFIG_BASICAUTH: false
+    depends_on:
+     - mongo   
+  redis:
+    image: redis
 volumes:
   mongo-db:

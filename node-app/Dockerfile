@@ -161,11 +161,20 @@ CMD ["npm","start"]
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 
 # ~~ Docker Practical Course in Arabic | #13 - Docker with MongoDB & NodeJS ~~ #
+# npm i mongodb
 # docker exec -it node-app-mongo-1 mongosh -u root -p root (auto login to DB)
 
 
 # ~~ Docker Practical Course in Arabic | #14 - Docker with Mongo-Express ~~ #
+# https://hub.docker.com/_/mongo --  https://www.npmjs.com/package/mongodb
 # docker volume ls
 # docker volume prune ( to remove unused volumes )
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml down -v ( to remove the volume)
 
-
+# ~~ Docker Practical Course in Arabic | #15 - Docker with Redis ~~ #\
+# https://hub.docker.com/_/redis -- https://www.npmjs.com/package/redis
+# Use cases: in-memory data store that can be used as a database, cache, or message broker.
+# docker run --name some-redis -d redis
+# npm i redis
+# to solve the error Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
+# we have to give the redis the ip of our container and no the default ip of redis  
