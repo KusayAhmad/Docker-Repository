@@ -10,7 +10,7 @@ COPY . .
 EXPOSE 4000
 CMD ["npm","run","dev-wds"]
 
-FROM base as  production
+FROM base as production
 
 WORKDIR /app 
 COPY package.json .
@@ -39,7 +39,9 @@ CMD ["npm","start"]
 
 # docker run --name express-node-app-container -v E:\2020Organization\Learning\Docker\node-app:/app -d -p 4000:4000 express-node-app
 # docker run --name=express-node-app-container -v $(pwd):/app -w=/app -d -p 4000:4000  --rm node bash -c "npm install && npm run dev"
+#-d: This option runs the container in detached mode, meaning it will run in the background and not block your terminal.
 # Windows:${PWD} .. linux:$(pwd)
+# This means the current directory $(pwd) on the host will be mapped to /app inside the container, allowing changes in the host directory to be reflected inside the container and vice versa.
 # المشكلة هنا بأن حذف مجلد في الكونتينر سيتم حذفه من اللوكال والعكس صحيح!
  
 
@@ -61,10 +63,20 @@ CMD ["npm","start"]
 # docker run --name express-node-app-container -v E:\2020Organization\Learning\Docker\node-app:/app:ro -d -p 4000:4000 express-node-app
 # docker run --name express-node-app-container -v ${PWD}:/app:ro -d -p 4000:4000 express-node-app
 # المشكلة في هذه الطريقة, هي بأني في حال حذفت مجلد في اللوكال سيتم حذفه من الكونتينر وسوف ينهار .. لذا الحل عبر استخدام
-# Anonymous Volums
+#  *** Anonymous Volums ***
 # لتأمين بعض المجلدات/الملفات في الكونتينر (مثلا ملفات مهمة حتى لا ينهار ) 
 # بهذه الحالة تم إضافة حماية مجلد المودولز في الكونتينر .. ففي حالة مسح شي من اللوكال لن يتم التأثير على الكونتينر 
 # docker run --name express-node-app-container -v ${PWD}:/app:ro -v /app/node_modules -d -p 4000:4000 express-node-app
+# -v ${PWD}:/app:ro:
+
+#     The -v flag is used to bind mount a volume.
+#     :/app:ro specifies the path inside the container where the directory from the host machine should be mounted with read-only (ro) access.
+#     This means the files can be read inside the container but not modified.
+# -v /app/node_modules:
+#     This -v flag is used to create an anonymous volume.
+#     /app/node_modules specifies the path inside the container to be mounted as an anonymous volume.
+#     This ensures that the node_modules directory inside the container is isolated from the host filesystem, preventing conflicts with host dependencies and ensuring container-specific dependencies.
+
 # بهذا الربط, في كل مرة أقوم بتشغيل الكونتينر سينسخ مجلد المودولز إلى اللوكال في حال لم يكن موجودا
 # الحل ؟؟ 
 # أن تقوم بربط مجلد السورس فقط
@@ -157,12 +169,14 @@ CMD ["npm","start"]
 
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
-# To rebuild the image and run the container
 # docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+# --build: Forces Docker Compose to rebuild the images before starting the containers.
+# used when you have made changes to the Dockerfile or the build context (such as changes in source code or dependencies)
 
 # ~~ Docker Practical Course in Arabic | #13 - Docker with MongoDB & NodeJS ~~ #
 # npm i mongodb
-# docker exec -it node-app-mongo-1 mongosh -u root -p root (auto login to DB)
+# (auto login to DB)
+# docker exec -it node-app-mongo-1 mongosh -u root -p root 
 
 
 # ~~ Docker Practical Course in Arabic | #14 - Docker with Mongo-Express ~~ #
@@ -178,3 +192,7 @@ CMD ["npm","start"]
 # npm i redis
 # to solve the error Redis Client Error Error: connect ECONNREFUSED 127.0.0.1:6379
 # we have to give the redis the ip of our container and no the default ip of redis  
+
+# ~~ Docker Practical Course in Arabic | #16 - Docker with Nginx ~~ #\
+https://hub.docker.com/_/nginx
+https://nginx.org/en/docs/beginners_guide.html

@@ -8,11 +8,12 @@ services:
       - ./.env
     depends_on:
       - mongo
+      - redis
   mongo:
     image: mongo
     restart: always
     volumes:
-      - mongo-db:/data/db #not bind mount anonymous volume .. (mongo-db just a name to avoid creating random name)
+      - mongo-db:/data/db #named volume, not a bind mount or anonymous volumes .. (mongo-db just a name to avoid creating random name)
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
@@ -30,5 +31,14 @@ services:
      - mongo   
   redis:
     image: redis
+  nginx:
+    image: nginx:stable-alpine
+    ports:
+      - "80:80"
+    depends_on:
+     - node-app
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf # bind mount
+
 volumes:
   mongo-db:
