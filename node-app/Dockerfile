@@ -43,7 +43,7 @@ CMD ["npm","start"]
 # Windows:${PWD} .. linux:$(pwd)
 # This means the current directory $(pwd) on the host will be mapped to /app inside the container, allowing changes in the host directory to be reflected inside the container and vice versa.
 # المشكلة هنا بأن حذف مجلد في الكونتينر سيتم حذفه من اللوكال والعكس صحيح!
- 
+
 
 # docker run --name express-node-app-container -d -p 4000:4000  express-node-app
 # -p: portforwording -- 9000:4000 = if someone call port 9000, forword him to the port 4000 (which is in my app)
@@ -194,5 +194,5 @@ CMD ["npm","start"]
 # we have to give the redis the ip of our container and no the default ip of redis  
 
 # ~~ Docker Practical Course in Arabic | #16 - Docker with Nginx ~~ #\
-https://hub.docker.com/_/nginx
-https://nginx.org/en/docs/beginners_guide.html
+# https://hub.docker.com/_/nginx
+# https://nginx.org/en/docs/beginners_guide.html
